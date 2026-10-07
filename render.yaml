@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: blashaqa
+    runtime: node
+    plan: free
+    buildCommand: echo "nothing to build"
+    startCommand: node --disable-warning=ExperimentalWarning server.mjs
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DEMO_SEED
+        value: "true"          # free plan has no persistent disk: demo data is re-created on every start
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        value: admin@blashaqa.dz
+      - key: ADMIN_PASSWORD
+        sync: false            # Render asks you for this value when you create the service
+      - key: OPENAI_API_KEY
+        sync: false            # optional: leave empty
